@@ -34,6 +34,8 @@
 <script>
 import axios from 'axios';
 
+const BASE_URL = 'https://icecream-backend-aqq3.onrender.com';
+
 export default {
   name: 'AdminView',
   data() {
@@ -47,7 +49,7 @@ export default {
   methods: {
     async fetchOrders() {
       try {
-        const res = await axios.get('http://localhost:5000/orders');
+        const res = await axios.get(`${BASE_URL}/orders`);
         this.orders = res.data;
       } catch (err) {
         console.error('Fout bij ophalen orders:', err);
@@ -55,7 +57,7 @@ export default {
     },
     async updateStatus(id) {
       try {
-        await axios.patch(`http://localhost:5000/orders/${id}`, { status: 'verwerkt' });
+        await axios.patch(`${BASE_URL}/orders/${id}`, { status: 'verwerkt' });
         this.fetchOrders();
       } catch (err) {
         console.error('Fout bij updaten status:', err);
@@ -63,7 +65,7 @@ export default {
     },
     async deleteOrder(id) {
       try {
-        await axios.delete(`http://localhost:5000/orders/${id}`);
+        await axios.delete(`${BASE_URL}/orders/${id}`);
         this.fetchOrders();
       } catch (err) {
         console.error('Fout bij verwijderen order:', err);
@@ -128,6 +130,16 @@ th {
   color: white;
   padding: 12px;
   text-align: left;
+}
+
+th:first-child {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+th:last-child {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 td {

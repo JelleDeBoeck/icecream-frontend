@@ -31,11 +31,11 @@ nav {
 
 nav a {
   text-decoration: none;
-  color: #42b983;
+  color: #e68798;
   font-weight: bold;
 }
 
 nav a.router-link-active {
-  color: #35495e;
+  color: #c04850;
 }
 </style>
