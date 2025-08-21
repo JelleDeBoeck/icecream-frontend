@@ -1,10 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import AdminView from '../views/AdminView.vue'
+import LoginView from '../views/LoginView.vue'
 
 const routes = [
-  { path: '/', name: 'Home', component: HomeView },
-  { path: '/admin', name: 'Admin', component: AdminView }
+  { path: '/login', name: 'Login', component: LoginView },
+  { 
+    path: '/admin', 
+    name: 'Admin', 
+    component: AdminView,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem('adminLoggedIn') === 'true') {
+        next();
+      } else {
+        next('/login');
+      }
+    }
+  },
+  { path: '/:pathMatch(.*)*', redirect: '/login' } // alles anders naar login
 ]
 
 const router = createRouter({

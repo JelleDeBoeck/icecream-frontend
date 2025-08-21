@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="admin-container">
     <h1>Adminpagina</h1>
     <p>Hier kan je bestellingen beheren.</p>
+
+    <button class="logout-btn" @click="logout">Logout</button>
 
     <table>
       <thead>
         <tr>
           <th>Naam</th>
           <th>Adres</th>
-          <th>Smaak</th>
-          <th>Topping</th>
           <th>Prijs</th>
           <th>Status</th>
           <th>Acties</th>
@@ -19,10 +19,8 @@
         <tr v-for="order in orders" :key="order._id">
           <td>{{ order.customerName }}</td>
           <td>{{ order.address }}</td>
-          <td>{{ order.flavor }}</td>
-          <td>{{ order.topping }}</td>
           <td>€{{ order.totalPrice.toFixed(2) }}</td>
-          <td>{{ order.status }}</td>
+          <td>{{ order.status || 'nieuw' }}</td>
           <td>
             <button @click="updateStatus(order._id)">Verwerk</button>
             <button @click="deleteOrder(order._id)">Verwijder</button>
@@ -58,7 +56,7 @@ export default {
     async updateStatus(id) {
       try {
         await axios.patch(`http://localhost:5000/orders/${id}`, { status: 'verwerkt' });
-        this.fetchOrders(); // lijst updaten
+        this.fetchOrders();
       } catch (err) {
         console.error('Fout bij updaten status:', err);
       }
@@ -66,17 +64,33 @@ export default {
     async deleteOrder(id) {
       try {
         await axios.delete(`http://localhost:5000/orders/${id}`);
-        this.fetchOrders(); // lijst updaten
+        this.fetchOrders();
       } catch (err) {
         console.error('Fout bij verwijderen order:', err);
       }
+    },
+    logout() {
+      localStorage.removeItem('adminLoggedIn');
+      this.$router.push('/login');
     }
   }
 };
 </script>
 
-
 <style scoped>
+.admin-container {
+  max-width: 700px;
+  margin: 30px auto;
+  text-align: left;
+}
+.logout-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -92,5 +106,6 @@ th {
 button {
   margin-right: 5px;
   cursor: pointer;
+  padding: 4px 8px;
 }
 </style>
