@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AdminView from '../views/AdminView.vue'
 import LoginView from '../views/LoginView.vue'
+import OrderDetailView from '../views/OrderDetailView.vue'
 
 const routes = [
   { path: '/login', name: 'Login', component: LoginView },
@@ -8,6 +9,18 @@ const routes = [
     path: '/admin', 
     name: 'Admin', 
     component: AdminView,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem('adminLoggedIn') === 'true') {
+        next();
+      } else {
+        next('/login');
+      }
+    }
+  },
+  { 
+    path: '/orders/:id', 
+    name: 'OrderDetail', 
+    component: OrderDetailView,
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem('adminLoggedIn') === 'true') {
         next();
