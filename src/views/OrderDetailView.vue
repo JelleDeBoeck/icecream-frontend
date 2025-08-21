@@ -8,6 +8,9 @@
       <p><strong>Adres:</strong> {{ order.address }}</p>
       <p><strong>Totaalprijs:</strong> €{{ order.totalPrice.toFixed(2) }}</p>
       <p><strong>Status:</strong> {{ order.status || 'nieuw' }}</p>
+      <p v-if="order.flavors && order.flavors.length"><strong>Smaken:</strong> {{ order.flavors.join(', ') }}</p>
+      <p v-if="order.toppings && order.toppings.length"><strong>Toppings:</strong> {{ order.toppings.join(', ') }}</p>
+
 
       <div class="actions">
         <button @click="updateStatus('verwerkt')" class="process-btn">Verwerk</button>
